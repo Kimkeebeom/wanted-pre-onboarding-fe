@@ -1,3 +1,11 @@
+import Todo from '../../components/todo/todo';
+import TodoList from '../../components/todo/todoList';
+
 export default function TodoPage() {
-  return <>todo 페이지</>;
+  return (
+    <>
+      <Todo />
+      {/* <TodoList /> */}
+    </>
+  );
 }

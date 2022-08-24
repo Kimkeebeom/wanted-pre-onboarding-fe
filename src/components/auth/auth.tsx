@@ -94,6 +94,7 @@ export default function Auth01() {
           localStorage.setItem('accessToken', accessToken);
           console.log(accessToken);
           alert('로그인!');
+          navigate('/todo');
         })
         .catch((error) => {
           alert(error);
@@ -101,11 +102,11 @@ export default function Auth01() {
         });
     }
   };
-  if (localStorage.getItem('accessToken')) {
-    navigate('/todo');
-  } else {
-    navigate('/');
-  }
+  // if (localStorage.getItem('accessToken')) {
+  //   navigate('/todo');
+  // } else {
+  //   navigate('/');
+  // }
 
   const toggleSwitch = () => setNewMember((prev) => !prev);
 
