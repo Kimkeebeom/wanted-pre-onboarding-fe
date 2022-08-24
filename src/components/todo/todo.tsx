@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import axios from 'axios';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TodoList from './todoList';
 
 const apiUrl =
@@ -8,6 +9,7 @@ const apiUrl =
 
 export default function Todo() {
   const [newTodo, setNewTodo] = useState('');
+  const navigate = useNavigate();
 
   const onChangeTodo = (e: ChangeEvent<HTMLInputElement>) => {
     setNewTodo(e.target.value);
@@ -39,9 +41,13 @@ export default function Todo() {
     <Main>
       <Wrap>
         <input type="text" placeholder="할 일 추가" onChange={onChangeTodo} />
-        <button onClick={onClickCreateTodo}>Enter</button>
+        <button style={{ cursor: 'pointer' }} onClick={onClickCreateTodo}>
+          추가
+        </button>
       </Wrap>
-      <TodoList />
+      <Wrap>
+        <TodoList />
+      </Wrap>
     </Main>
   );
 }
@@ -60,6 +66,10 @@ const Wrap = styled.div`
   flex-direction: row;
   margin-bottom: 20px;
   input {
+    border-radius: 10px;
     margin-right: 10px;
+  }
+  button {
+    border-radius: 10px;
   }
 `;

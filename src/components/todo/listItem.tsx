@@ -3,17 +3,14 @@ import axios from 'axios';
 import { Fragment, useEffect, useState } from 'react';
 import { apiUrl } from '../api/api';
 
-// export interface IListItemProps {
-//   id: string;
-//   todo: string;
-//   isCompleted: boolean;
-//   userId: number;
-// }
-
 export default function ListItem(props: any) {
   const [editTodo, setEditTodo] = useState(props?.el?.todo);
-  const [isCompleted, setIsCompleted] = useState(props.el.isCompleted);
+  const [isCompleted, setIsCompleted] = useState<boolean>(props.el.isCompleted);
   const [isEdit, setIsEdit] = useState(false);
+
+  const onChangeValue = (event: { target: { value: string } }) => {
+    setEditTodo(event?.target.value);
+  };
 
   const onClickDeleteTodo = async () => {
     await axios
@@ -35,7 +32,6 @@ export default function ListItem(props: any) {
   const onClickUpdateTodo = async () => {
     await axios
       .put(
-        // `https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/todos/${props.el.id}`,
         `${apiUrl}todos/${props.el.id}`,
         {
           todo: editTodo,
@@ -51,7 +47,7 @@ export default function ListItem(props: any) {
       .then((res) => {
         if (res.status === 200) {
           props.getList();
-          setIsEdit((prev) => !prev);
+          // setIsEdit((prev) => !prev);
         }
         setEditTodo(res.data);
       })
@@ -60,18 +56,46 @@ export default function ListItem(props: any) {
       });
   };
 
+  const toggleCheck = () => {
+    setIsCompleted((current) => !current);
+  };
+
+  const onChangeCheckBox = async () => {
+    toggleCheck();
+    await axios
+      .put(
+        `${apiUrl}todos/${props.el.id}`,
+        {
+          id: props.el.id,
+          todo: props.el.todo,
+          isCompleted,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((res) => {
+        setIsCompleted(res.data.isCompleted);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
   const onClickCancel = () => {
     setIsEdit((prev) => !prev);
   };
 
   useEffect(() => {
-    // onClickUpdateTodo();
+    onChangeCheckBox();
     onClickCancel();
+    toggleCheck();
+    // onClickUpdateTodo();
   }, []);
 
-  const onChangeValue = (event: { target: { value: string } }) => {
-    setEditTodo(event?.target.value);
-  };
   return (
     <Fragment>
       {isEdit ? (
@@ -89,7 +113,21 @@ export default function ListItem(props: any) {
         </Wrap>
       ) : (
         <Wrap>
-          <ItemWrap>{props?.el?.todo}</ItemWrap>
+          {!isCompleted ? (
+            <ItemWrap>
+              <button id={props.el.id} onClick={onChangeCheckBox} />
+              {props?.el?.todo}
+            </ItemWrap>
+          ) : (
+            <ItemWrap>
+              <button
+                id={props.el.id}
+                onClick={onChangeCheckBox}
+                style={{ background: 'red' }}
+              />
+              <s>{props?.el?.todo}</s>
+            </ItemWrap>
+          )}
           <span onClick={onClickUpdateTodo}>수정✅</span>
           <span id={props.el.id} onClick={onClickDeleteTodo}>
             ❌
@@ -100,10 +138,22 @@ export default function ListItem(props: any) {
   );
 }
 const Wrap = styled.div`
+  max-width: 400px;
+  width: 100%;
   display: flex;
+  flex-direction: row;
+
   span {
     cursor: pointer;
     margin-left: 10px;
+  }
+  button {
+    padding: 5px;
+    margin-top: 1px;
+    margin-right: 5px;
+    border-radius: 30px;
+    height: 20px;
+    cursor: pointer;
   }
 `;
 

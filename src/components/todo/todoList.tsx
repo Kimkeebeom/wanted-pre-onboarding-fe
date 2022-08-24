@@ -34,9 +34,8 @@ export default function TodoList() {
       return;
     }
     getList();
+    /* eslint-disable react-hooks/exhaustive-deps */
   }, []);
-
-  console.log('어케할꼬?:', todoList);
 
   return (
     <Main>

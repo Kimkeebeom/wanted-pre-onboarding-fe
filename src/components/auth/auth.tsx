@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import axios from 'axios';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { apiUrl } from '../api/api';
 
@@ -74,6 +74,12 @@ export default function Auth01() {
         });
     }
   };
+
+  useEffect(() => {
+    if (localStorage.getItem('accessToken')) {
+      navigate('/todo');
+    }
+  }, []);
 
   const toggleSwitch = () => setNewMember((prev) => !prev);
 
