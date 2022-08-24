@@ -69,6 +69,9 @@ export default function ListItem(props: any) {
     onClickCancel();
   }, []);
 
+  const onChangeValue = (event: { target: { value: string } }) => {
+    setEditTodo(event?.target.value);
+  };
   return (
     <Fragment>
       {isEdit ? (
@@ -78,6 +81,7 @@ export default function ListItem(props: any) {
               type="text"
               id={props.el.id}
               defaultValue={props?.el?.todo}
+              onChange={onChangeValue}
             />
           </ItemWrap>
           <span onClick={onClickUpdateTodo}>등록</span>

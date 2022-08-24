@@ -12,7 +12,6 @@ export default function TodoList() {
   const [todoList, setTodoList] = useState([]);
   const navigate = useNavigate();
 
-  // useEffect(() => {
   const getList = async () => {
     await axios
       .get(apiUrl + '/todos', {
@@ -28,7 +27,6 @@ export default function TodoList() {
         alert(error.response.data.message);
       });
   };
-  // }, []);
 
   useEffect(() => {
     if (!localStorage.getItem('accessToken')) {
@@ -36,16 +34,7 @@ export default function TodoList() {
       return;
     }
     getList();
-    // if (todoList.length <= 3 && todoList.length > 0) {
-    // }
   }, []);
-
-  // useEffect(() => {
-  //   if (todoList.length > 0 && todoList.length <= 5) {
-  //     getList();
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [todoList]);
 
   console.log('어케할꼬?:', todoList);
 
@@ -62,9 +51,7 @@ export default function TodoList() {
 }
 
 const Main = styled.div`
-  /* height: 100vh; */
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
 `;

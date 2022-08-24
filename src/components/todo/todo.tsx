@@ -57,7 +57,9 @@ const Wrap = styled.div`
   max-width: 350px;
   width: 100%;
   display: flex;
-  /* flex-direction: column;
-  justify-content: center;
-  align-items: center; */
+  flex-direction: row;
+  margin-bottom: 20px;
+  input {
+    margin-right: 10px;
+  }
 `;

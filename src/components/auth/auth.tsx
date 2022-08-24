@@ -2,16 +2,13 @@ import styled from '@emotion/styled';
 import axios from 'axios';
 import { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const apiUrl =
-  'https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/';
+import { apiUrl } from '../api/api';
 
 export default function Auth01() {
   const [email, setEmail] = useState('');
-  // const [errorEmail, setErrorEmail] = useState('');
+
   const [password, setPassword] = useState('');
-  // const [errorPassword, setErrorPassword] = useState('');
-  // const [isActive, setIsActive] = useState(true);
+
   const [newMember, setNewMember] = useState(true);
   const navigate = useNavigate();
 
@@ -23,31 +20,6 @@ export default function Auth01() {
   const validEmail = checkEmail(email);
   const validPassword = password.length > 7;
   const validForm = validEmail && validPassword;
-
-  // const valid = (e: ChangeEvent<HTMLInputElement>) => {
-  //   const checkEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  //   if (!checkEmail.test(e.target.value)) {
-  //     setErrorEmail('이메일 형식에 올바르지 않습니다.');
-  //   } else {
-  //     setErrorEmail('');
-  //   }
-  //   if (!checkEmail.test(e.target.value) && !password) {
-  //     setIsActive(true);
-  //   } else {
-  //     setIsActive(false);
-  //   }
-  //   const checkPassword = password.length >= 8;
-  //   if (!checkPassword.valueOf()) {
-  //     setErrorPassword('비밀번호 8자리 이상 입력해주세요');
-  //   } else {
-  //     setErrorPassword('');
-  //   }
-  //   if (email && !checkPassword.valueOf()) {
-  //     setIsActive(true);
-  //   } else {
-  //     setIsActive(false);
-  //   }
-  // }
 
   const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -102,11 +74,6 @@ export default function Auth01() {
         });
     }
   };
-  // if (localStorage.getItem('accessToken')) {
-  //   navigate('/todo');
-  // } else {
-  //   navigate('/');
-  // }
 
   const toggleSwitch = () => setNewMember((prev) => !prev);
 
@@ -124,7 +91,6 @@ export default function Auth01() {
         <div className="validMessgae">
           {!validEmail && <>이메일 형식이 아닙니다!</>}
         </div>
-        {/* <div className="validMessgae">{errorEmail}</div> */}
         <input
           type="password"
           placeholder="Password"
@@ -135,7 +101,6 @@ export default function Auth01() {
         <div className="validMessgae">
           {!validPassword && <>비밀번호 8자리 이상 입력해주세요!</>}
         </div>
-        {/* <div className="validMessgae">{errorPassword}</div> */}
         <SubmitButton disabled={!validForm} onClick={onClickSubmitBtn}>
           {newMember ? '회원가입' : '로그인'}
         </SubmitButton>
