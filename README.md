@@ -4,6 +4,7 @@
 npm install 또는 yarn install
 npm start 또는 yarn start
 ```
+ps. 서버가 닫힌 관계로 데모 영상으로 봐주시기 바랍니다.
 ## 데모 영상
 ## ::1. 로그인 / 회원가입
 * ```/``` 경로에 로그인 / 회원가입 기능을 개발해주세요
